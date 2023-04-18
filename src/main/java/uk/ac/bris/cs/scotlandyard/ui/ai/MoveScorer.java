@@ -26,4 +26,6 @@ public interface MoveScorer {
      * @return a single move
      */
     public Move bestMove();
+
+
 }
