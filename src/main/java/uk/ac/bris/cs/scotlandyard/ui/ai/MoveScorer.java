@@ -15,6 +15,7 @@ import javax.annotation.Nonnull;
 
 
 public interface MoveScorer {
+
     /**A method for scoring an individual move
     *@param move
     *@return a corresponding integer for the move
@@ -27,5 +28,17 @@ public interface MoveScorer {
      */
     public Move bestMove();
 
+    /** the different scorer methods for the move:
+     * @param move
+     * @return A weighted int depending on how important the method is
+     */
+    // Scoring depending on the number of nodes @dest
+    public int numNodes(@Nonnull Move move);
+    // Scoring depending on the variety of nodes @dest
+    public int numDiffNodes (@Nonnull Move move);
+    // Scoring depending on the proximity of detectives @dest
+    public int distToNextDetective(@Nonnull Move move);
+    // Scoring depending on the value of the ticket used by the move
+    public int ticketVal(@Nonnull Move move);
 
 }
