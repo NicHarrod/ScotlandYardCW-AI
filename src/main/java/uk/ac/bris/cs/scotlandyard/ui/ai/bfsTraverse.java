@@ -12,6 +12,7 @@ public class bfsTraverse {
     public bfsTraverse(@Nonnull ImmutableValueGraph<Integer, ImmutableSet<ScotlandYard.Transport>> graph){
         this.graph=graph;
 
+
     }
 
     public int findNextDetective (int Source){
