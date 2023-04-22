@@ -17,9 +17,9 @@ import uk.ac.bris.cs.scotlandyard.model.ScotlandYard;
 
 public class OneMoveAI implements Ai{
 
-    private final class MyMoveScorer implements MoveScorer{
+    public final class MyMoveScorer implements MoveScorer{
 
-
+        //using this to get the values for the desitnation from the diffferent possible moves (single or double)
         private final class ScoreMoveVisitor implements Move.Visitor<Integer>{
 
             public void ScoreMoveVisitor (){}
@@ -35,8 +35,8 @@ public class OneMoveAI implements Ai{
         }
 
         public Board.GameState state;
-        public ImmutableList<Move> availableMoves;
-        public MyMoveScorer (ImmutableList<Move> moves, Board.GameState state){
+        public ImmutableSet<Move> availableMoves;
+        public MyMoveScorer (ImmutableSet<Move> moves, Board.GameState state){
             this.availableMoves=moves;
             this.state=state;
         }
@@ -116,7 +116,7 @@ public class OneMoveAI implements Ai{
             @Nonnull Board board,
             Pair<Long, TimeUnit> timeoutPair) {
         // returns a random move, replace with your own implementation
-        var moves = board.getAvailableMoves().asList();
+        var moves = board.getAvailableMoves();
         return new MyMoveScorer(moves, (Board.GameState) board).bestMove();
     }
 }
