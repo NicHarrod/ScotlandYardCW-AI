@@ -23,8 +23,6 @@ public class bfsTraverse {
         this.graph=graph;
     }
 
-
-
     public HashMap<Integer, Integer> solve (@Nonnull Integer start) {
         Queue<Integer> queue = new LinkedList<>();
         queue.add(start);
@@ -65,6 +63,7 @@ public class bfsTraverse {
 
     public HashMap<Piece, Integer> findNextDetective (int Source){
         HashMap<Piece, Integer> detectives = new HashMap<>();
+
         Queue<Integer> queue = new LinkedList<>();
         return detectives;
     }
