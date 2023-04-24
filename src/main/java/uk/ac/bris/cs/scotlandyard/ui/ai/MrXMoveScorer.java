@@ -36,11 +36,19 @@ public final class MrXMoveScorer implements MoveScorer{
     @Override
     public int scoreMove(@Nonnull Move move) {
         int dest = move.accept(new ScoreMoveVisitor());
-        int moveTotal = numNodes(dest) + numDiffNodes(dest) + distToNextDetective(dest) + ticketVal(move);
-        System.out.println("numNodes"+numNodes(dest));
-        System.out.println("numDiffNodes"+numDiffNodes(dest));
-        System.out.println("distToNextDetective"+distToNextDetective(dest));
-        System.out.println("ticketVal"+ticketVal(move));
+        //weights:
+        int numWeight,diffWeight,distWeight,valWeight;
+        numWeight=1;
+        diffWeight=1;
+        distWeight=4;
+        valWeight=1;
+
+        int moveTotal = numNodes(dest)*numWeight + numDiffNodes(dest)*diffWeight +
+                distToNextDetective(dest)*distWeight + ticketVal(move)*valWeight;
+//        System.out.println("numNodes"+numNodes(dest));
+//        System.out.println("numDiffNodes"+numDiffNodes(dest));
+//        System.out.println("distToNextDetective"+distToNextDetective(dest));
+//        System.out.println("ticketVal"+ticketVal(move));
         return moveTotal;
     }
 
