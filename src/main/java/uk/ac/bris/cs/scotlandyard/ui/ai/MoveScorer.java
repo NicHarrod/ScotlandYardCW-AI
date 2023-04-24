@@ -1,8 +1,10 @@
 package uk.ac.bris.cs.scotlandyard.ui.ai;
 
 import uk.ac.bris.cs.scotlandyard.model.Move;
+import uk.ac.bris.cs.scotlandyard.model.Piece;
 
 import javax.annotation.Nonnull;
+import java.util.HashMap;
 
 /** PIRORITIES FOR THE DIFFERENT SCORE METHODS
  * Maybe if detective in adjacent node
@@ -38,9 +40,12 @@ public interface MoveScorer {
     public int numNodes(@Nonnull int dest);
     // Scoring depending on the variety of nodes @dest
     public int numDiffNodes (@Nonnull int dest);
+    // map of dist from detectives @dest
+    public HashMap<Piece,Integer> distToDetectives(@Nonnull int dest);
     // Scoring depending on the proximity of detectives @dest
-    public int distToNextDetective(@Nonnull int dest);
+    public Integer distToNextDetective(@Nonnull int dest);
     // Scoring depending on the value of the ticket used by the move
+
     public int ticketVal(@Nonnull Move move);
 
 }

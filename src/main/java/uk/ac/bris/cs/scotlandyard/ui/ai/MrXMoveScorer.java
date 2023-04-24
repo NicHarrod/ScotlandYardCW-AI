@@ -1,10 +1,7 @@
 package uk.ac.bris.cs.scotlandyard.ui.ai;
 
 import com.google.common.collect.ImmutableSet;
-import uk.ac.bris.cs.scotlandyard.model.Board;
-import uk.ac.bris.cs.scotlandyard.model.Move;
-import uk.ac.bris.cs.scotlandyard.model.Piece;
-import uk.ac.bris.cs.scotlandyard.model.ScotlandYard;
+import uk.ac.bris.cs.scotlandyard.model.*;
 
 import javax.annotation.Nonnull;
 import java.util.*;
@@ -28,6 +25,7 @@ public final class MrXMoveScorer implements MoveScorer{
 
     public Board.GameState state;
     public ImmutableSet<Move> availableMoves;
+    public Integer mrXOrigin;
     public MrXMoveScorer (ImmutableSet<Move> moves, Board.GameState state){
         this.availableMoves=moves;
         this.state=state;
@@ -76,12 +74,30 @@ public final class MrXMoveScorer implements MoveScorer{
     }
 
     @Override
-    public int distToNextDetective(@Nonnull int dest) {
-        HashMap<Piece,Integer> distMap = (new bfsTraverse(state.getSetup().graph, )
-        Map.Entry<Piece,Integer> currentClosest = null;
-        return 0;
+    public HashMap<Piece,Integer> distToDetectives(@Nonnull int dest) {
+        HashMap<Piece,Integer> distToDetects = new HashMap<>();
+        for (Piece d : state.getPlayers()) {
+            if (!d.isMrX()){
+                bfsTraverse bfs = new bfsTraverse(state.getSetup().graph, dest, state.getDetectiveLocation((Piece.Detective) d).get());
+                ArrayList<Integer> FromMrXpath = bfs.path;
+                distToDetects.put(d, FromMrXpath.size());
+
+            }
+        }
+        return distToDetects;
     }
 
+    public Integer distToNextDetective(@Nonnull int dest) {
+        HashMap<Piece,Integer> distToDetects = distToDetectives(dest);
+        Integer distToClosest = 1000;
+        for (Piece d : state.getPlayers()) {
+            Integer dist = distToDetects.get(d);
+            if (dist < distToClosest) {
+                distToClosest = dist;
+            }
+        }
+        return distToClosest;
+    }
     @Override
     public int ticketVal(@Nonnull Move move) {
         //Train takes the furthest

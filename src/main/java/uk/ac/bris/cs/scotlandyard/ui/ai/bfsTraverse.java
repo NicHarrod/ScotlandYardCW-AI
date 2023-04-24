@@ -51,11 +51,11 @@ public class bfsTraverse {
 
     public ArrayList<Integer> PathFromEndToStart(Integer start,Integer end,HashMap<Integer, Integer> prev){
         ArrayList<Integer> path = new ArrayList<>();
-        for (Integer at = end; at != null; at = prev.get(at)) {
+        for                           (Integer at = end; at != null; at = prev.get(at)) {
             path.add(at);
         }
         Collections.reverse(path);
-        if (path.get(0) == start) {
+        if (                                                 path.get(0) == start) {
             return path;
         }
         return null;
