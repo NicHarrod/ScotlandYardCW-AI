@@ -18,9 +18,9 @@ import static uk.ac.bris.cs.scotlandyard.model.ScotlandYard.defaultMrXTickets;
 public class ScorerTest extends ParameterisedModelTestBase {
     @Test public void moveScoredCorrectly(){
         var mrX = new Player(MRX, defaultMrXTickets(), 104);
-        var blue = new Player(BLUE, makeTickets(11, 8, 4, 0, 0), 116);
+        var blue = new Player(BLUE, makeTickets(11, 8, 4, 0, 0), 118);
         Board.GameState state = gameStateFactory.build(standard24MoveSetup(), mrX, blue);
         MoveScorer Scorer = new MrXMoveScorer(state.getAvailableMoves(),state);
-        Assert.assertEquals(Scorer.scoreMove(new Move.SingleMove(MRX,104, ScotlandYard.Ticket.UNDERGROUND,88)),11);
+        Assert.assertEquals(Scorer.scoreMove(new Move.SingleMove(MRX,104, ScotlandYard.Ticket.TAXI,116)),13);
     }
 }

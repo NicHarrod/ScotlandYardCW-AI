@@ -37,6 +37,10 @@ public final class MrXMoveScorer implements MoveScorer{
     public int scoreMove(@Nonnull Move move) {
         int dest = move.accept(new ScoreMoveVisitor());
         int moveTotal = numNodes(dest) + numDiffNodes(dest) + distToNextDetective(dest) + ticketVal(move);
+        System.out.println("numNodes"+numNodes(dest));
+        System.out.println("numDiffNodes"+numDiffNodes(dest));
+        System.out.println("distToNextDetective"+distToNextDetective(dest));
+        System.out.println("ticketVal"+ticketVal(move));
         return moveTotal;
     }
 
@@ -89,14 +93,17 @@ public final class MrXMoveScorer implements MoveScorer{
 
     public Integer distToNextDetective(@Nonnull int dest) {
         HashMap<Piece,Integer> distToDetects = distToDetectives(dest);
+        System.out.print(distToDetectives(dest));
         Integer distToClosest = 1000;
         for (Piece d : state.getPlayers()) {
-            Integer dist = distToDetects.get(d);
-            if (dist < distToClosest) {
-                distToClosest = dist;
+            if (!d.isMrX()) {
+                Integer dist = distToDetectives(dest).get(d);
+                if (dist < distToClosest) {
+                    distToClosest = dist;
+                }
             }
         }
-        return distToClosest;
+        return distToClosest-1;
     }
     @Override
     public int ticketVal(@Nonnull Move move) {

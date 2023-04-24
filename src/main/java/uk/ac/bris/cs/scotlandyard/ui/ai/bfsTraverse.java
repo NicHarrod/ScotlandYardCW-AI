@@ -18,26 +18,24 @@ public class bfsTraverse {
     public ArrayList<Integer> path;
 
     public bfsTraverse(@Nonnull ImmutableValueGraph<Integer, ImmutableSet<ScotlandYard.Transport>> graph, Integer start, Integer end){
-        HashMap<Integer, Integer> prev = solve(start);
+        HashMap<Integer, Integer> prev = solve(graph, start);
         this.path = PathFromEndToStart(start, end, prev);
-        this.graph=graph;
     }
 
-    public HashMap<Integer, Integer> solve (@Nonnull Integer start) {
+    public HashMap<Integer, Integer> solve (@Nonnull ImmutableValueGraph<Integer, ImmutableSet<ScotlandYard.Transport>> graph, Integer start) {
         Queue<Integer> queue = new LinkedList<>();
         queue.add(start);
         HashMap<Integer, Boolean> visited = new HashMap<>(graph.nodes().size());
         visited.put(start, false);
         HashMap<Integer, Integer> prev = new HashMap<>(graph.nodes().size());
         for (Integer node : graph.nodes()) {
-            prev.put(node, -1);
             visited.put(node, false);
         }
         visited.put(start, true);
-        ArrayList<Integer> neighbours;
+        List<Integer> neighbours;
         while (!queue.isEmpty()) {
             Integer parent = queue.remove();
-            neighbours = (ArrayList<Integer>) this.graph.adjacentNodes(parent);
+            neighbours =  graph.adjacentNodes(parent).stream().toList();
             for (Integer next : neighbours) {
                 if (visited.get(next) == false) {
                     queue.add(next);
@@ -51,11 +49,12 @@ public class bfsTraverse {
 
     public ArrayList<Integer> PathFromEndToStart(Integer start,Integer end,HashMap<Integer, Integer> prev){
         ArrayList<Integer> path = new ArrayList<>();
-        for                           (Integer at = end; at != null; at = prev.get(at)) {
+        for (Integer at = end; at != null; at = prev.get(at)) {
             path.add(at);
         }
         Collections.reverse(path);
-        if (                                                 path.get(0) == start) {
+        System.out.print(path);
+        if (path.get(0) == start) {
             return path;
         }
         return null;
