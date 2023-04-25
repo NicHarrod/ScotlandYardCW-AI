@@ -7,8 +7,8 @@ public class MinMaxTree implements Tree {
     MyNode root;
     Integer Alpha;
 
-    @Override
-    public void Tree(Board.GameState state, Integer limit) {
+
+    public void MinMaxTree(Board.GameState state, Integer limit) {
         this.root = new MyNode(NodeType.ROOT,null,state,null,limit);
     }
 

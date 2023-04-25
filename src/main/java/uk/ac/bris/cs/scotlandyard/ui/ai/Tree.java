@@ -9,12 +9,7 @@ import uk.ac.bris.cs.scotlandyard.model.Move;
  * CURRENT WIP!!
  */
 public interface Tree {
-    /**
-     * takes a state and limit and starts creating the nodes
-     * @param state
-     * @param limit
-     */
-    public void Tree (Board.GameState state, Integer limit);
+
 
     /**
      * takes a scorer and a node to score it's value
