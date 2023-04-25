@@ -3,6 +3,7 @@ package uk.ac.bris.cs.scotlandyard.ui.ai;
 import uk.ac.bris.cs.scotlandyard.model.Board;
 import uk.ac.bris.cs.scotlandyard.model.Move;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 public interface Node {
@@ -10,7 +11,7 @@ public interface Node {
      * creates a set of child nodes
      * @return children
      */
-    public Set<Node> MakeChildren();
+    public ArrayList<MyNode> MakeChildren();
 
     /**
      * returns the nodes generation

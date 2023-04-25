@@ -16,10 +16,12 @@ import javax.annotation.Nonnull;
 public class bfsTraverse {
     public ImmutableValueGraph<Integer, ImmutableSet<ScotlandYard.Transport>> graph;
     public ArrayList<Integer> path;
+    public HashMap<Integer, Integer> prev;
 
-    public bfsTraverse(@Nonnull ImmutableValueGraph<Integer, ImmutableSet<ScotlandYard.Transport>> graph, Integer start, Integer end){
-        HashMap<Integer, Integer> prev = solve(graph, start);
-        this.path = PathFromEndToStart(start, end, prev);
+    public bfsTraverse(@Nonnull ImmutableValueGraph<Integer, ImmutableSet<ScotlandYard.Transport>> graph, Integer start, Integer end, ImmutableSet players){
+        this.prev = solve(graph, start);
+
+        this.path = PathFromEndToStart(start, end, this.prev);
     }
 
     public HashMap<Integer, Integer> solve (@Nonnull ImmutableValueGraph<Integer, ImmutableSet<ScotlandYard.Transport>> graph, Integer start) {
@@ -53,17 +55,11 @@ public class bfsTraverse {
             path.add(at);
         }
         Collections.reverse(path);
-        System.out.print(path);
+        System.out.print("path"+path);
         if (path.get(0) == start) {
             return path;
         }
         return null;
     }
 
-    public HashMap<Piece, Integer> findNextDetective (int Source){
-        HashMap<Piece, Integer> detectives = new HashMap<>();
-
-        Queue<Integer> queue = new LinkedList<>();
-        return detectives;
-    }
 }

@@ -3,6 +3,7 @@ package uk.ac.bris.cs.scotlandyard.ui.ai;
 import uk.ac.bris.cs.scotlandyard.model.Board;
 import uk.ac.bris.cs.scotlandyard.model.Move;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,13 +11,16 @@ public class MyNode implements Node {
     Node parent;
     Board.GameState state;
     Move move;
-    Set<Node> children;
+    ArrayList<MyNode> children;
     Integer generation;
     Integer limit;
     NodeType type;
+
+    boolean Maxxing;
     public MyNode(NodeType type, Node parent, Board.GameState state, Move move, Integer limit) {
         this.type=type;
         this.state=state;
+
         if (type==NodeType.ROOT){
             this.limit=limit;
             this.move=null;
@@ -28,13 +32,20 @@ public class MyNode implements Node {
             this.parent = parent;
             this.move = move;
             this.generation = parent.generation() +1;
+
             this.limit = parent.limit();
             System.out.println(generation);
             this.children = MakeChildren();
         }
+        if(generation%2==0){
+            this.Maxxing = true;
+        }
+        else{
+            this.Maxxing=false;
+        }
     }
-    @Override  public Set<Node> MakeChildren() {
-        this.children=new HashSet<Node>();
+    @Override  public ArrayList<MyNode> MakeChildren() {
+        this.children=new ArrayList<MyNode>();
         NodeType childType = NodeType.NORMAL;
         if (type == NodeType.LEAF){
             return children;

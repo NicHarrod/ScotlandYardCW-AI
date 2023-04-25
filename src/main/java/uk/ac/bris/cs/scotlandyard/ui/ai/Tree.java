@@ -16,11 +16,11 @@ public interface Tree {
      * @param leaf
      * @return nodes value
      */
-    public int scoreNode (Node leaf);
+    public Double scoreNode (Node leaf);
 
     /**
      * prunes the tree and finds the best availible move
      * @return the move of the corresponding node of the next one to take
      */
-    public Move prune ();
+    public Double prune (Board.GameState state, Integer limit, MyNode node, Boolean Maxxing, Double Alpha, Double beta);
 }

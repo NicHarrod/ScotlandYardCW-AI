@@ -39,8 +39,8 @@ public final class MrXMoveScorer implements MoveScorer{
         //weights:
         int numWeight,diffWeight,distWeight,valWeight;
         numWeight=1;
-        diffWeight=1;
-        distWeight=4;
+        diffWeight=2;
+        distWeight=5;
         valWeight=1;
 
         int moveTotal = numNodes(dest)*numWeight + numDiffNodes(dest)*diffWeight +
@@ -90,17 +90,16 @@ public final class MrXMoveScorer implements MoveScorer{
         HashMap<Piece,Integer> distToDetects = new HashMap<>();
         for (Piece d : state.getPlayers()) {
             if (!d.isMrX()){
-                bfsTraverse bfs = new bfsTraverse(state.getSetup().graph, dest, state.getDetectiveLocation((Piece.Detective) d).get());
+                bfsTraverse bfs = new bfsTraverse(state.getSetup().graph, dest, state.getDetectiveLocation((Piece.Detective) d).get(), state.getPlayers());
+
                 ArrayList<Integer> FromMrXpath = bfs.path;
                 distToDetects.put(d, FromMrXpath.size());
-
             }
         }
         return distToDetects;
     }
 
     public Integer distToNextDetective(@Nonnull int dest) {
-        HashMap<Piece,Integer> distToDetects = distToDetectives(dest);
         System.out.print(distToDetectives(dest));
         Integer distToClosest = 1000;
         for (Piece d : state.getPlayers()) {
