@@ -21,7 +21,7 @@ public interface Tree {
      * @param leaf
      * @return nodes value
      */
-    public int scoreNode (LeafNode leaf);
+    public int scoreNode (Node leaf);
 
     /**
      * prunes the tree and finds the best availible move

@@ -3,7 +3,8 @@ package aiTest;
 import org.junit.Test;
 import uk.ac.bris.cs.scotlandyard.model.Board;
 import uk.ac.bris.cs.scotlandyard.model.Player;
-import uk.ac.bris.cs.scotlandyard.ui.ai.RootNode;
+import uk.ac.bris.cs.scotlandyard.ui.ai.MyNode;
+import uk.ac.bris.cs.scotlandyard.ui.ai.NodeType;
 
 import static uk.ac.bris.cs.scotlandyard.model.Piece.Detective.*;
 import static uk.ac.bris.cs.scotlandyard.model.Piece.MrX.MRX;
@@ -19,7 +20,8 @@ public class TreeTest extends ParameterisedModelTestBase{
         Board.GameState state = gameStateFactory.build(standard24MoveSetup(),
                 mrX, red);
 
-        RootNode root = new RootNode(state,2);
+        MyNode root = new MyNode(NodeType.ROOT,null,state,null,2);
+
         System.out.print(root);
     }
 
