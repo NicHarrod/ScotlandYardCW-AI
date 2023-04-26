@@ -25,7 +25,7 @@ public class TreeTest extends ParameterisedModelTestBase{
 
         MyNode root = new MyNode(NodeType.ROOT,null,state,null,2);
 
-        System.out.print(root);
+        System.out.print(root.children.get(0));
     }
 
 

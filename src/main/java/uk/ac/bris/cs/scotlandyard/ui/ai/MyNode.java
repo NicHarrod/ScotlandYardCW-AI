@@ -103,7 +103,7 @@ public class MyNode implements Node {
         if (this.parent==null){
             return ("root" + "\n children: \n" + this.children);
         }
-        return (this.move.toString() + "\n children: \n" + this.children);
+        return (this.move.toString() + "\n children: " + this.children + "\n");
     }
 
 
