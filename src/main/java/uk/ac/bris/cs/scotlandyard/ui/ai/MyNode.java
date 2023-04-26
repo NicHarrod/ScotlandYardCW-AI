@@ -19,7 +19,6 @@ public class MyNode implements Node {
     Integer generation;
     Integer limit;
     NodeType type;
-    Integer score;
     boolean Maxxing;
 
     public MyNode(NodeType type, Node parent, Board.GameState state, Move move, Integer limit) {
@@ -94,19 +93,17 @@ public class MyNode implements Node {
     @Override public Integer generation() {return generation;}
     @Override public Integer limit() {return limit;}
 
-    public void scoreSelf(){
+    public Integer scoreSelf(){
         if (this.type==NodeType.LEAF) {
             MoveScorer scorer;
-            if (Maxxing) {
+            if (generation==0 || generation%2==0) {
                 scorer = new MrXMoveScorer(null, state);
             } else {
                 scorer = new DetectiveMoveScorer(null, state);
             }
-            this.score = scorer.scoreMove(this.move);
-            return;
+            return scorer.scoreMove(this.move);
         }
-        this.score =0;
-        return;
+        return 0;
     }
     @Override  public String toString() {
         if (this.parent==null){
