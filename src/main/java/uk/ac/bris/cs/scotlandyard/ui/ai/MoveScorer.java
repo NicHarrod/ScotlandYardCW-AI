@@ -41,11 +41,7 @@ public interface MoveScorer {
     // Scoring depending on the variety of nodes @dest
     public int numDiffNodes (@Nonnull int dest);
     // map of dist from detectives @dest
-    public HashMap<Piece,Integer> distToDetectives(@Nonnull int dest);
-    // Scoring depending on the proximity of detectives @dest
-    public Integer distToNextDetective(@Nonnull int dest);
     // Scoring depending on the value of the ticket used by the move
-
     public int ticketVal(@Nonnull Move move);
 
 }

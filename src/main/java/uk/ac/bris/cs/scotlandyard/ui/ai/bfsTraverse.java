@@ -18,7 +18,7 @@ public class bfsTraverse {
     public ArrayList<Integer> path;
     public HashMap<Integer, Integer> prev;
 
-    public bfsTraverse(@Nonnull ImmutableValueGraph<Integer, ImmutableSet<ScotlandYard.Transport>> graph, Integer start, Integer end, ImmutableSet players){
+    public bfsTraverse(@Nonnull ImmutableValueGraph<Integer, ImmutableSet<ScotlandYard.Transport>> graph, Integer start, Integer end){
         this.prev = solve(graph, start);
 
         this.path = PathFromEndToStart(start, end, this.prev);

@@ -5,7 +5,6 @@ import org.junit.Test;
 import uk.ac.bris.cs.scotlandyard.model.*;
 import uk.ac.bris.cs.scotlandyard.ui.ai.MoveScorer;
 import uk.ac.bris.cs.scotlandyard.ui.ai.MrXMoveScorer;
-import uk.ac.bris.cs.scotlandyard.ui.ai.OneMoveAI;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static uk.ac.bris.cs.scotlandyard.model.Piece.Detective.BLUE;

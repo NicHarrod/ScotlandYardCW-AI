@@ -31,8 +31,6 @@ public final class MrXMoveScorer implements MoveScorer{
         this.state=state;
     }
 
-
-
     @Override
     public int scoreMove(@Nonnull Move move) {
         int dest = move.accept(new ScoreMoveVisitor());
@@ -85,12 +83,12 @@ public final class MrXMoveScorer implements MoveScorer{
         return nodeOptions.size();
     }
 
-    @Override
+
     public HashMap<Piece,Integer> distToDetectives(@Nonnull int dest) {
         HashMap<Piece,Integer> distToDetects = new HashMap<>();
         for (Piece d : state.getPlayers()) {
             if (!d.isMrX()){
-                bfsTraverse bfs = new bfsTraverse(state.getSetup().graph, dest, state.getDetectiveLocation((Piece.Detective) d).get(), state.getPlayers());
+                bfsTraverse bfs = new bfsTraverse(state.getSetup().graph, dest, state.getDetectiveLocation((Piece.Detective) d).get());
 
                 ArrayList<Integer> FromMrXpath = bfs.path;
                 distToDetects.put(d, FromMrXpath.size());
