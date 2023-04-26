@@ -17,8 +17,8 @@ public class TreeTest extends ParameterisedModelTestBase{
 
     @Test public void nodeCreationTest(){
         var mrX = new Player(MRX, defaultMrXTickets(), 106);
-        var red = new Player(RED, defaultDetectiveTickets(), 91);
-        var blue = new Player(BLUE,defaultDetectiveTickets(), 116);
+        var red = new Player(RED, defaultDetectiveTickets(), 100);
+        var blue = new Player(BLUE,defaultDetectiveTickets(), 62);
 
         Board.GameState state = gameStateFactory.build(standard24MoveSetup(),
                 mrX, red,blue);
@@ -26,6 +26,7 @@ public class TreeTest extends ParameterisedModelTestBase{
         MyNode root = new MyNode(NodeType.ROOT,null,state,null,2);
 
         System.out.print(root.children.get(0));
+        //System.out.print(root.children.get(0).children.get(1));
     }
 
 

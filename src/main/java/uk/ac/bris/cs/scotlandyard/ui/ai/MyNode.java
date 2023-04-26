@@ -42,10 +42,12 @@ public class MyNode implements Node {
             //System.out.println(generation);
             this.children = MakeChildren();
         }
-        if(generation%2==0){
+        if(generation % 2==0){
+           // System.out.println("maxxing");
             this.Maxxing = true;
         }
         else{
+           // System.out.println("minning");
             this.Maxxing=false;
         }
     }
@@ -54,20 +56,27 @@ public class MyNode implements Node {
         NodeType childType = NodeType.NORMAL;
         if (type == NodeType.LEAF){return children;}
         if (generation+1 == limit){childType = NodeType.LEAF;}
-        if (!Maxxing) {
+        if (generation==0 || generation%2==0) {
+            //System.out.println("HAVING SEXXX");
             for (Move m : state.getAvailableMoves()) {
                 children.add(new MyNode(childType, this, state.advance(m), m, limit));
             }
         }
-        if(Maxxing){
-            Board.GameState currentState =this.state;
-            for (Piece p : currentState.getPlayers()){
+        else{
+            Board.GameState currentState = this.state;
+            ImmutableSet<Piece> pieces= currentState.getPlayers();
+            for (Piece p : pieces){
+//                System.out.println(p);
+//                System.out.println(currentState.getAvailableMoves());
+//                System.out.println(currentState.getWinner());
                 DetectiveMoveScorer scorer = new DetectiveMoveScorer(
                         ImmutableSet.copyOf(getAvailibleMovesForPiece(p,currentState)),currentState);
+
                 if (!p.isMrX()){
                     currentState = currentState.advance(scorer.bestMove());
                 }
             }
+            System.out.println("ONLY ONE");
             children.add(new MyNode(childType,this,currentState,null,limit));
 
         }
@@ -102,6 +111,9 @@ public class MyNode implements Node {
     @Override  public String toString() {
         if (this.parent==null){
             return ("root" + "\n children: \n" + this.children);
+        }
+        if (this.move==null){
+            return "detective move \n children: " + this.children + "\n";
         }
         return (this.move.toString() + "\n children: " + this.children + "\n");
     }
