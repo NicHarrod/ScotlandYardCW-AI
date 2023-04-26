@@ -16,7 +16,7 @@ public interface Tree {
      * @param leaf
      * @return nodes value
      */
-    public Double scoreNode (Node leaf);
+    public Double scoreNode (MyNode leaf, MrXMoveScorer scorer);
 
     /**
      * prunes the tree and finds the best availible move

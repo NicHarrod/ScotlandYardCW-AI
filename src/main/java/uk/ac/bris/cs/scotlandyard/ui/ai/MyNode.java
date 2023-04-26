@@ -15,7 +15,6 @@ public class MyNode implements Node {
     Integer generation;
     Integer limit;
     NodeType type;
-
     boolean Maxxing;
     public MyNode(NodeType type, Node parent, Board.GameState state, Move move, Integer limit) {
         this.type=type;
@@ -34,7 +33,7 @@ public class MyNode implements Node {
             this.generation = parent.generation() +1;
 
             this.limit = parent.limit();
-            System.out.println(generation);
+            //System.out.println(generation);
             this.children = MakeChildren();
         }
         if(generation%2==0){

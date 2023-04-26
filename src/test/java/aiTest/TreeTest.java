@@ -3,6 +3,7 @@ package aiTest;
 import org.junit.Test;
 import uk.ac.bris.cs.scotlandyard.model.Board;
 import uk.ac.bris.cs.scotlandyard.model.Player;
+import uk.ac.bris.cs.scotlandyard.ui.ai.MinMaxTree;
 import uk.ac.bris.cs.scotlandyard.ui.ai.MyNode;
 import uk.ac.bris.cs.scotlandyard.ui.ai.NodeType;
 
@@ -24,5 +25,18 @@ public class TreeTest extends ParameterisedModelTestBase{
 
         System.out.print(root);
     }
+
+
+
+    @Test public void minMaxPruneTest(){
+        var mrX = new Player(MRX, defaultMrXTickets(), 106);
+        var red = new Player(RED, defaultDetectiveTickets(), 91);
+        Board.GameState state = gameStateFactory.build(standard24MoveSetup(), mrX, red);
+
+        MinMaxTree testTree = new MinMaxTree(state,4);
+        System.out.println("PRUNED\n" + testTree.pruned);
+    }
+
+
 
 }
