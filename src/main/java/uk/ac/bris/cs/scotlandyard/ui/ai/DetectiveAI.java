@@ -23,6 +23,7 @@ public class DetectiveAI implements Ai {
             }
         }
         return moves;
+
     }
     @Nonnull @Override public Move pickMove(
             @Nonnull Board board,

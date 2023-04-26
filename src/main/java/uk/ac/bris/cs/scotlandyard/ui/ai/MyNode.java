@@ -104,6 +104,7 @@ public class MyNode implements Node {
             return scorer.scoreMove(this.move);
         }
         return 0;
+
     }
     @Override  public String toString() {
         if (this.parent==null){
