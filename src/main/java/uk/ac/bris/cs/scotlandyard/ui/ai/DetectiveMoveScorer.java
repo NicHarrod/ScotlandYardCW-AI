@@ -21,7 +21,7 @@ public class DetectiveMoveScorer implements MoveScorer{
     @Override
     public int scoreMove (Move move){
         Integer dest = giveDest((Move.SingleMove) move);
-        return numNodes(dest) + distToLastMrX((Move.SingleMove) move);
+        return numNodes(dest) + distToLastMrX((Move.SingleMove) move)*5;
     }
     private Integer giveDest (Move.SingleMove move){return move.destination;}
 
@@ -38,7 +38,6 @@ public class DetectiveMoveScorer implements MoveScorer{
                 currentBest=mE;
             }
         }
-
         return currentBest.getKey();
     }
 
@@ -61,7 +60,7 @@ public class DetectiveMoveScorer implements MoveScorer{
         Integer lastSeen = getLastMrX();
         if (getLastMrX()==null) return 0;
         bfsTraverse traverser = new bfsTraverse(state.getSetup().graph,move.destination,lastSeen);
-        return traverser.PathFromEndToStart(move.destination,lastSeen,traverser.solve(state.getSetup().graph, move.destination)).size();
+        return traverser.path.size();
     }
 
     public Integer getLastMrX (){

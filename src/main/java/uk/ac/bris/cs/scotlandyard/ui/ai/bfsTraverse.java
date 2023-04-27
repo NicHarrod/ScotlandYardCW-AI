@@ -24,7 +24,7 @@ public class bfsTraverse {
         this.path = PathFromEndToStart(start, end, this.prev);
     }
 
-    public HashMap<Integer, Integer> solve (@Nonnull ImmutableValueGraph<Integer, ImmutableSet<ScotlandYard.Transport>> graph, Integer start) {
+    private HashMap<Integer, Integer> solve (@Nonnull ImmutableValueGraph<Integer, ImmutableSet<ScotlandYard.Transport>> graph, Integer start) {
         Queue<Integer> queue = new LinkedList<>();
         queue.add(start);
         HashMap<Integer, Boolean> visited = new HashMap<>(graph.nodes().size());
@@ -49,13 +49,17 @@ public class bfsTraverse {
         return prev;
     }
 
-    public ArrayList<Integer> PathFromEndToStart(Integer start,Integer end,HashMap<Integer, Integer> prev){
+    private ArrayList<Integer> PathFromEndToStart(Integer start,Integer end,HashMap<Integer, Integer> prev){
         ArrayList<Integer> path = new ArrayList<>();
+        if (start.equals(end)){
+            path.add(start);
+            return path;
+        }
         for (Integer at = end; at != null; at = prev.get(at)) {
             path.add(at);
         }
         Collections.reverse(path);
-        System.out.print("path"+path);
+       // System.out.print("path"+path);
         if (path.get(0) == start) {
             return path;
         }

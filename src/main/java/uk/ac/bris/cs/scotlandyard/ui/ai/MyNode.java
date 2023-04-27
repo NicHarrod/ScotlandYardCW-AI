@@ -11,9 +11,13 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * A class that implments the node interface
+ * some attributes are public in order for the tester to have access to them
+ */
 public class MyNode implements Node {
     Node parent;
-    public Board.GameState state;
+    Board.GameState state;
     public Move move;
     public ArrayList<MyNode> children;
     Integer generation;
@@ -21,6 +25,17 @@ public class MyNode implements Node {
     NodeType type;
     boolean Maxxing;
 
+    /**
+     * The constructor for the node
+     * Children - the children of the node, created in MakeChildren(),
+     * Maxxing - flag used to indicate if it's maxxing or minning,
+     * generation - the current generation of the node, used to determine it's level in the tree,
+     * @param type - the nodetype from enums,
+     * @param parent - the parent of node, handed to the nodes in makechildren using this,
+     * @param state - the stored state that the node creates,
+     * @param move - the move that gets the node to that point,
+     * @param limit - the max depth allowed for the node
+     */
     public MyNode(NodeType type, Node parent, Board.GameState state, Move move, Integer limit) {
         this.type=type;
         this.state=state;
@@ -36,19 +51,11 @@ public class MyNode implements Node {
             this.parent = parent;
             this.move = move;
             this.generation = parent.generation() +1;
-
             this.limit = parent.limit();
-            //System.out.println(generation);
             this.children = MakeChildren();
         }
-        if(generation % 2==0){
-           // System.out.println("maxxing");
-            this.Maxxing = true;
-        }
-        else{
-           // System.out.println("minning");
-            this.Maxxing=false;
-        }
+        if(generation % 2==0) this.Maxxing = true;
+        else this.Maxxing=false;
     }
     @Override  public ArrayList<MyNode> MakeChildren() {
         this.children=new ArrayList<MyNode>();
@@ -56,7 +63,6 @@ public class MyNode implements Node {
         if (type == NodeType.LEAF){return children;}
         if (generation+1 == limit){childType = NodeType.LEAF;}
         if (generation==0 || generation%2==0) {
-            //System.out.println("HAVING SEXXX");
             for (Move m : state.getAvailableMoves()) {
                 children.add(new MyNode(childType, this, state.advance(m), m, limit));
             }
@@ -65,9 +71,6 @@ public class MyNode implements Node {
             Board.GameState currentState = this.state;
             ImmutableSet<Piece> pieces= currentState.getPlayers();
             for (Piece p : pieces){
-//                System.out.println(p);
-//                System.out.println(currentState.getAvailableMoves());
-//                System.out.println(currentState.getWinner());
                 DetectiveMoveScorer scorer = new DetectiveMoveScorer(
                         ImmutableSet.copyOf(getAvailibleMovesForPiece(p,currentState)),currentState);
 
@@ -75,7 +78,6 @@ public class MyNode implements Node {
                     currentState = currentState.advance(scorer.bestMove());
                 }
             }
-            System.out.println("ONLY ONE");
             children.add(new MyNode(childType,this,currentState,null,limit));
 
         }
@@ -90,10 +92,12 @@ public class MyNode implements Node {
         }
         return moves;
     }
-    @Override public Integer generation() {return generation;}
-    @Override public Integer limit() {return limit;}
 
-    public Integer scoreSelf(){
+    /**
+     * a function for a node to score itself, only runs on leaf nodes
+     * @return the score of the node
+     */
+    public int scoreSelf(){
         if (this.type==NodeType.LEAF) {
             MoveScorer scorer;
             if (generation==0 || generation%2==0) {
@@ -103,9 +107,8 @@ public class MyNode implements Node {
             }
             return scorer.scoreMove(this.move);
         }
-        return 0;
+        return 0;}
 
-    }
     @Override  public String toString() {
         if (this.parent==null){
             return ("root" + "\n children: \n" + this.children);
@@ -116,5 +119,7 @@ public class MyNode implements Node {
         return (this.move.toString() + "\n children: " + this.children + "\n");
     }
 
-
+    @Override public Integer generation() {return generation;}
+    @Override public Integer limit() {return limit;}
+    public Board.GameState state() {return state;}
 }

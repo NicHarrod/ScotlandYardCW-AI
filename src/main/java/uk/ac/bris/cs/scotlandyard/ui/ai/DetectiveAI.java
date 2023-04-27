@@ -28,7 +28,7 @@ public class DetectiveAI implements Ai {
     @Nonnull @Override public Move pickMove(
             @Nonnull Board board,
             Pair<Long, TimeUnit> timeoutPair) {
-        board.
+
         return (new DetectiveMoveScorer(board.getAvailableMoves(), (Board.GameState) board).bestMove());
     }
 }
