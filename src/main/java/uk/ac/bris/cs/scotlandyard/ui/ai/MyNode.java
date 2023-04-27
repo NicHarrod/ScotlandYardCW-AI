@@ -12,10 +12,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * A class that implments the node interface
+ * A class that creates a node Object
  * some attributes are public in order for the tester to have access to them
  */
-public class MyNode implements Node {
+public class MyNode {
     public MyNode parent;
     Board.GameState state;
     public Move move;
@@ -62,7 +62,11 @@ public class MyNode implements Node {
         if(generation % 2==0) this.Maxxing = true;
         else this.Maxxing=false;
     }
-    @Override  public ArrayList<MyNode> MakeChildren() {
+    /**
+     * creates a set of child nodes
+     * @return children
+     */
+    public ArrayList<MyNode> MakeChildren() {
         this.children=new ArrayList<MyNode>();
         NodeType childType = NodeType.NORMAL;
         if (type == NodeType.LEAF){return children;}
@@ -125,7 +129,7 @@ public class MyNode implements Node {
         return (this.move.toString() + "\n children: " + this.children + "\n");
     }
 
-    @Override public Integer generation() {return generation;}
-    @Override public Integer limit() {return limit;}
+    public Integer generation() {return generation;}
+    public Integer limit() {return limit;}
     public Board.GameState state() {return state;}
 }

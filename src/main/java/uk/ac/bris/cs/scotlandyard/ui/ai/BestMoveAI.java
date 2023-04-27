@@ -10,9 +10,7 @@ import io.atlassian.fugue.Pair;
 import uk.ac.bris.cs.scotlandyard.model.*;
 
 public class BestMoveAI implements Ai{
-
-
-
+    
     @Nonnull @Override public String name() { return "BEST"; }
 
     @Nonnull @Override public Move pickMove(
