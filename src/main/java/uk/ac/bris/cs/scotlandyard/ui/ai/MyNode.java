@@ -17,7 +17,7 @@ import java.util.Set;
  */
 public class MyNode implements Node {
     int Greatparent;
-    Node parent;
+    MyNode parent;
     Board.GameState state;
     public Move move;
     public ArrayList<MyNode> children;
@@ -38,13 +38,14 @@ public class MyNode implements Node {
      * @param move - the move that gets the node to that point,
      * @param limit - the max depth allowed for the node
      */
-    public MyNode(NodeType type, Node parent, Board.GameState state, Move move, Integer limit) {
+    public MyNode(NodeType type, MyNode parent, Board.GameState state, Move move, Integer limit) {
         this.type=type;
         this.state=state;
 
-        this.Greatparent = -1;
+
 
         if (type==NodeType.ROOT){
+            this.Greatparent = -1;
             this.limit=limit;
             this.move=null;
             this.parent=null;
@@ -52,11 +53,13 @@ public class MyNode implements Node {
             this.children=MakeChildren();
         }
         else {
+
             this.parent = parent;
             this.move = move;
             this.generation = parent.generation() +1;
             this.limit = parent.limit();
             this.children = MakeChildren();
+
         }
         if(generation % 2==0) this.Maxxing = true;
         else this.Maxxing=false;
@@ -66,6 +69,7 @@ public class MyNode implements Node {
         NodeType childType = NodeType.NORMAL;
         if (type == NodeType.LEAF){return children;}
         if (generation+1 == limit){childType = NodeType.LEAF;}
+        if (generation==0){childType=NodeType.MIDDLE;}
         if (generation==0 || generation%2==0) {
             for (Move m : state.getAvailableMoves()) {
                 children.add(new MyNode(childType, this, state.advance(m), m, limit));
@@ -75,10 +79,19 @@ public class MyNode implements Node {
             Board.GameState currentState = this.state;
             ImmutableSet<Piece> pieces= currentState.getPlayers();
             for (Piece p : pieces){
-                DetectiveMoveScorer scorer = new DetectiveMoveScorer(
-                        ImmutableSet.copyOf(getAvailibleMovesForPiece(p,currentState)),currentState);
+
+                //System.out.println("winner:" + currentState.getWinner());
+               // System.out.println("AVAILBIBLE MOVES: " + getAvailibleMovesForPiece(p,currentState));
+                //System.out.println("Getaviliblemoves result : "+ currentState.getAvailableMoves());
+
+//                DetectiveMoveScorer scorer = new DetectiveMoveScorer(
+//
+//                        ImmutableSet.copyOf(getAvailibleMovesForPiece(p,currentState)),currentState);
 
                 if (!p.isMrX()){
+                    DetectiveMoveScorer scorer = new DetectiveMoveScorer(
+
+                            ImmutableSet.copyOf(getAvailibleMovesForPiece(p,currentState)),currentState);
                     currentState = currentState.advance(scorer.bestMove());
                 }
             }

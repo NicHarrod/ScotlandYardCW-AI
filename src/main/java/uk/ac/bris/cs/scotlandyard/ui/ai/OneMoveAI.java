@@ -12,7 +12,7 @@ public class OneMoveAI implements Ai {
     @Nonnull @Override public String name() {return "ONEMOVEAHEAD";}
 
     @Nonnull @Override public Move pickMove(@Nonnull Board board, Pair<Long, TimeUnit> timeoutPair) {
-        MinMaxTree gametree = new MinMaxTree((Board.GameState) board,2);
+        MinMaxTree gametree = new MinMaxTree((Board.GameState) board,3);
 
         return gametree.bestNode.move;
 

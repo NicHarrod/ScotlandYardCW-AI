@@ -32,8 +32,9 @@ public class DetectiveMoveScorer implements MoveScorer{
         for (Move m : availableMoves){
             moveMap.put(m,scoreMove(m));
         }
-
+        //System.out.println("DETECTIVE MOVES:"+moveMap);
         for (Map.Entry<Move,Integer> mE : moveMap.entrySet()){
+
             if  (currentBest==null || mE.getValue() > currentBest.getValue()  ){
                 currentBest=mE;
             }

@@ -40,8 +40,11 @@ public class TreeTest extends ParameterisedModelTestBase{
 
     @Test public void minMaxPruneTest(){
         var mrX = new Player(MRX, defaultMrXTickets(), 106);
-        var red = new Player(RED, defaultDetectiveTickets(), 91);
-        Board.GameState state = gameStateFactory.build(standard24MoveSetup(), mrX, red);
+        var red = new Player(RED, defaultDetectiveTickets(), 3);
+        var blue = new Player(BLUE,defaultDetectiveTickets(), 62);
+        var green = new Player(GREEN,defaultDetectiveTickets(), 4);
+        Board.GameState state = gameStateFactory.build(standard24MoveSetup(),
+                mrX, red,green,blue);
         MinMaxTree testTree = new MinMaxTree(state,3);
         MyNode chosenNode = (MyNode) testTree.chooseBest();
         MrXMoveScorer scorer = new MrXMoveScorer(null,chosenNode.state());
