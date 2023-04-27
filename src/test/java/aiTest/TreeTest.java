@@ -43,10 +43,10 @@ public class TreeTest extends ParameterisedModelTestBase{
         var red = new Player(RED, defaultDetectiveTickets(), 91);
         Board.GameState state = gameStateFactory.build(standard24MoveSetup(), mrX, red);
         MinMaxTree testTree = new MinMaxTree(state,3);
-        MyNode chosenNode = testTree.pruned;
+        MyNode chosenNode = (MyNode) testTree.chooseBest();
         MrXMoveScorer scorer = new MrXMoveScorer(null,chosenNode.state());
         System.out.println(state.getAvailableMoves());
-        System.out.println("PRUNED\n" + chosenNode.move + "generation" + chosenNode.generation() + "score" + scorer.scoreMove(chosenNode.move));
+        System.out.println("PRUNED\n" + chosenNode.move + " generation " + chosenNode.generation() + " score " + scorer.scoreMove(chosenNode.move));
     }
 
 

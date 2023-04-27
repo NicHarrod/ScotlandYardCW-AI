@@ -14,7 +14,7 @@ public class OneMoveAI implements Ai {
     @Nonnull @Override public Move pickMove(@Nonnull Board board, Pair<Long, TimeUnit> timeoutPair) {
         MinMaxTree gametree = new MinMaxTree((Board.GameState) board,2);
 
-        return gametree.pruned.move;
+        return gametree.bestNode.move;
 
     }
 }

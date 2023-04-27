@@ -33,7 +33,8 @@ public final class MrXMoveScorer implements MoveScorer{
 
     @Override
     public int scoreMove(@Nonnull Move move) {
-        if (!availableMoves.contains(move))throw new IllegalArgumentException("move not availible!!");
+        if (availableMoves!=null){
+        if (!availableMoves.contains(move))throw new IllegalArgumentException("move not availible!!");}
         int dest = move.accept(new ScoreMoveVisitor());
         //weights:
         int numWeight,diffWeight,distWeight,valWeight;

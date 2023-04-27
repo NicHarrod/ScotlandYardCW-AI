@@ -16,6 +16,7 @@ import java.util.Set;
  * some attributes are public in order for the tester to have access to them
  */
 public class MyNode implements Node {
+    int Greatparent;
     Node parent;
     Board.GameState state;
     public Move move;
@@ -24,6 +25,7 @@ public class MyNode implements Node {
     Integer limit;
     NodeType type;
     boolean Maxxing;
+
 
     /**
      * The constructor for the node
@@ -39,6 +41,8 @@ public class MyNode implements Node {
     public MyNode(NodeType type, Node parent, Board.GameState state, Move move, Integer limit) {
         this.type=type;
         this.state=state;
+
+        this.Greatparent = -1;
 
         if (type==NodeType.ROOT){
             this.limit=limit;
