@@ -7,151 +7,51 @@ import java.util.*;
 
 public class MinMaxTree {
     MyNode root;
-    Double Alpha, Beta;
-    public int pruned;
-    Double MaxEval;
-    Double MiniEval;
-    public HashMap<Integer, Integer> treeMap;
-    MyNode bestNode;
-
-
-
+    //public HashMap<Integer, Integer> treeMap;
+    public MyNode bestNode;
 
     public MinMaxTree(Board.GameState state, Integer limit) {
-        this.root = new MyNode(NodeType.ROOT,null,state,null,limit);
-        this.Alpha = Double.NEGATIVE_INFINITY;
-        this.Beta = Double.POSITIVE_INFINITY;
-        this.treeMap = new HashMap<>();
-        assignGreatParent();
-        this.pruned = prune (this.root.state, this.root.limit, this.root, this.root.Maxxing, this.Alpha, this.Beta, -1);
-        this.MaxEval = Double.NEGATIVE_INFINITY;
-        this.MiniEval = Double.POSITIVE_INFINITY;
-        this.Alpha = Double.NEGATIVE_INFINITY;
-        this.Beta = Double.POSITIVE_INFINITY;
-        this.bestNode=chooseBest();
+        this.root = new MyNode(NodeType.ROOT, null, state, null, limit);
+        //this.treeMap = new HashMap<>();
+        NodeEvalPair result = minMax(root,Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY);
+        System.out.println("endnode" + result);
+        System.out.println("result parent" + result.node.parent);
+        System.out.println("result parent parent" + result.node.parent.parent);
 
-
+        this.bestNode=result.giveTopNode(result.node);
+        //this.bestNode = prune(this.root.state, this.root.limit, this.root, this.root.Maxxing, this.Alpha, this.Beta).node;
 
     }
-    public MyNode chooseBest(){
-        Map.Entry<Integer,Integer> currentBest=null;
-        System.out.println("map"+treeMap);
-        for (Map.Entry<Integer,Integer> mE : treeMap.entrySet()){
-            //System.out.println(mE);
-            if(currentBest==null|| mE.getKey()>currentBest.getKey()) currentBest=mE;
-        }
-        System.out.println(currentBest.getValue());
-        System.out.println(currentBest);
-        return root.children.get(currentBest.getValue() );
-    }
 
-
-    public int scoreNode(MyNode leaf, MrXMoveScorer scorer) {
+    public int scoreNode(MyNode leaf, MoveScorer scorer) {
         //System.out.println("scored "+scorer.scoreMove(leaf.move));
         return scorer.scoreMove(leaf.move);
     }
-    public void assignGreatParent(){
-        for (MyNode n : root.children){
-            n.Greatparent=root.children.indexOf(n);
+
+    public NodeEvalPair minMax(MyNode node,Double alpha,Double beta){
+        MoveScorer scorer = new MrXMoveScorer(null,node.state);
+        if (node.limit==0 || node.type==NodeType.LEAF){
+            return new NodeEvalPair(node, (double) scoreNode(node,scorer));
         }
-    }
-
-
-
-    public int prune(Board.GameState state, Integer limit, MyNode node, Boolean Maxxing,Double alpha,Double beta,  Integer greatparent) {
-        MrXMoveScorer leafScorer = new MrXMoveScorer ( null,node.state);
-        //System.out.println("greatpeatnet"+node.Greatparent);
-        if (node.type==NodeType.LEAF || limit == 0) {
-            this.treeMap.put(scoreNode(node, leafScorer), node.Greatparent);
-            //System.out.println("term"+scoreNode(node, leafScorer));
-            return scoreNode(node, leafScorer);}
-        if (node.Greatparent != -1) {
-            node.Greatparent = greatparent;
-        }
-        int i=0;
-        if (node.Maxxing == true) {
-            int MaxEval = Integer.MIN_VALUE;
-            for (MyNode c:node.children) {
-                if (node.type==NodeType.MIDDLE) {
-                    c.Greatparent = node.children.indexOf(c);
-                    //System.out.println("middleparent max"+ node.children.get(0).children);
-
-                }
-
-                i++;
-
-                int Eval = prune(state,limit -1, c, false, alpha, beta, c.Greatparent );
-                MaxEval = Math.max(MaxEval, Eval);
-                alpha = Math.max(alpha, Eval);
-                //if (alpha<beta) return MaxEval;
+        if(node.Maxxing){
+            NodeEvalPair MaxEval =new NodeEvalPair(node.children.get(0),Double.NEGATIVE_INFINITY);
+            for (MyNode c : node.children){
+                NodeEvalPair eval = minMax(c,alpha, beta);
+                if (eval.Eval>MaxEval.Eval) MaxEval=eval;
+                alpha = Math.max(alpha, eval.Eval);
+                if (beta <= alpha) return MaxEval;
             }
             return MaxEval;
         }
-        else {
-
-            int MiniEval = Integer.MAX_VALUE;
-            for (MyNode c : node.children) {
-                //System.out.println("min "+node.children.indexOf(c));
-                if (node.type==NodeType.MIDDLE) {
-                    c.Greatparent = node.children.indexOf(c);
-                    //System.out.println("middleparent mini"+ node.children.get(0).children);
-                }
-
-
-                int Eval = prune(state,limit -1, c, true, alpha, beta,c.Greatparent);
-                MiniEval = Math.min(MiniEval, Eval);
-                beta = Math.min(beta, Eval);
-                //if (alpha<beta) return MiniEval;
-
+        else{
+            NodeEvalPair MinEval =new NodeEvalPair(node.children.get(0),Double.POSITIVE_INFINITY);
+            for (MyNode c : node.children){
+                NodeEvalPair eval = minMax(c,alpha, beta);
+                if (eval.Eval<MinEval.Eval) MinEval=eval;
+                beta = Math.max(beta, eval.Eval);
+                if (beta <= alpha) return MinEval;
             }
-            return MiniEval;
+            return MinEval;
         }
     }
 }
-/*
-@Override
-public HashMap<MyNode, Double> prune(Board.GameState state, Integer limit, MyNode node,
-                                     Boolean Maxxing, Double alpha, Double beta, Integer greatparent,HashMap<MyNode, Double> NodeVal ) {
-    //if (node == this.root) firstNodes.addAll(this.root.children);
-    if (node.Greatparent != -1) {
-        node.Greatparent = greatparent;
-        NodeVal.put(node, Double.NEGATIVE_INFINITY);
-    }
-    //MrXMoveScorer XleafScorer = new MrXMoveScorer ( null,node.state);
-    //DetectiveMoveScorer DleafScorer = new DetectiveMoveScorer(null, node.state);
-    if (node.type==NodeType.LEAF || limit == node.generation) {
-        if (Maxxing) this.MaxEval= node.scoreSelf();
-        else this.MiniEval= node.scoreSelf();
-        return NodeVal;
-    }
-
-    int i= 0;
-    if (Maxxing) {
-        for (MyNode c:node.children) {
-            if (node.Greatparent == -1) c.Greatparent = i;
-            //Double Eval = node.scoreSelf();
-            NodeVal.put(node, node.scoreSelf());
-            NodeVal.putAll(prune(state,limit -1, c, false, alpha, beta,c.Greatparent, NodeVal));
-            this.MaxEval = Math.max(MaxEval, Eval);
-                alpha = Math.max(alpha, Eval);
-                //chosenNode = c;
-                if (alpha<beta) return NodeVal;
-            i++;
-        }
-    }
-    else {
-        for (MyNode c : node.children) {
-            if (node.Greatparent == -1) c.Greatparent = i;
-            Double Eval = node.scoreSelf();
-            NodeVal.put(node, node.scoreSelf());
-            NodeVal.putAll(prune(state,limit -1, c, false, alpha, beta,c.Greatparent, NodeVal));
-            //Double Eval = scoreNode (prune(state,limit -1, c, true, alpha, beta, c.Greatparent);
-            this.MiniEval = Math.min(MiniEval, Eval);
-            //chosenNode = c;
-            beta = Math.min(beta, Eval);
-            if (alpha<beta) return NodeVal;
-            i++;
-        }
-    }
-    return NodeVal;
-}*/

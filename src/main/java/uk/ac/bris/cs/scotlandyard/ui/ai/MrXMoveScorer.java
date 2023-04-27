@@ -35,7 +35,7 @@ public final class MrXMoveScorer implements MoveScorer{
     public int scoreMove(@Nonnull Move move) {
         if (availableMoves != null) {
             if (!availableMoves.contains(move)) throw new IllegalArgumentException("move not availible!!");};
-
+        if (move==null) return 0;
         int dest = move.accept(new ScoreMoveVisitor());
         //weights:
         int numWeight, diffWeight, distWeight, valWeight;
@@ -129,18 +129,19 @@ public final class MrXMoveScorer implements MoveScorer{
         //Train takes the furthest
         //would rather use a ticket that is more likely to have the most of
         //Double and secret are most valuable
-        int secretMultiplier=1;
+       int secretMultiplier=1;
         if(state.getSetup().moves.get(state.getMrXTravelLog().size())){
-            secretMultiplier=-2;
+            secretMultiplier=1;
         }
+
         int totalVal = 0;
         for (ScotlandYard.Ticket t : move.tickets()){
             switch (t){
-                case TAXI -> totalVal += 3;
+                case TAXI -> totalVal += 2;
                 case BUS -> totalVal += 2;
                 case UNDERGROUND -> totalVal += 1;
                 case DOUBLE -> totalVal += -7;
-                case SECRET -> totalVal += -4*secretMultiplier;
+                case SECRET -> totalVal += (-4)*secretMultiplier;
 
             }
         }

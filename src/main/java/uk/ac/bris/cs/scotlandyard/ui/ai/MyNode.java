@@ -16,8 +16,7 @@ import java.util.Set;
  * some attributes are public in order for the tester to have access to them
  */
 public class MyNode implements Node {
-    int Greatparent;
-    MyNode parent;
+    public MyNode parent;
     Board.GameState state;
     public Move move;
     public ArrayList<MyNode> children;
@@ -45,7 +44,6 @@ public class MyNode implements Node {
 
 
         if (type==NodeType.ROOT){
-            this.Greatparent = -1;
             this.limit=limit;
             this.move=null;
             this.parent=null;
@@ -79,15 +77,6 @@ public class MyNode implements Node {
             Board.GameState currentState = this.state;
             ImmutableSet<Piece> pieces= currentState.getPlayers();
             for (Piece p : pieces){
-
-                //System.out.println("winner:" + currentState.getWinner());
-               // System.out.println("AVAILBIBLE MOVES: " + getAvailibleMovesForPiece(p,currentState));
-                //System.out.println("Getaviliblemoves result : "+ currentState.getAvailableMoves());
-
-//                DetectiveMoveScorer scorer = new DetectiveMoveScorer(
-//
-//                        ImmutableSet.copyOf(getAvailibleMovesForPiece(p,currentState)),currentState);
-
                 if (!p.isMrX()){
                     DetectiveMoveScorer scorer = new DetectiveMoveScorer(
 
